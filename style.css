@@ -84,6 +84,7 @@ header {
     font-weight: 800;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 0.5rem;
     letter-spacing: 0.2em;
@@ -405,6 +406,26 @@ button {
     background: rgba(0, 242, 254, 0.1);
     border-color: var(--accent-1);
     text-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+}
+
+/* Instruction Image */
+.instruction-img {
+    max-width: 70%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Shared shadow style */
+    padding: 15px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 600px) {
+    .instruction-img {
+        max-width: 95%; /* Much wider on small screens */
+        padding: 6px;  /* Smaller frame padding */
+        border-radius: 12px;
+    }
 }
 
 /* Toast Notification */
