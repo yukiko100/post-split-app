@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadAllBtn = document.getElementById('download-all-btn');
     const qualitySlider = document.getElementById('quality-slider');
     const qualityValue = document.getElementById('quality-value');
+    const resetBtn = document.getElementById('reset-btn');
 
     if (qualitySlider) {
         qualitySlider.addEventListener('input', (e) => {
@@ -149,6 +150,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkAllImagesLoaded() {
         const allLoaded = keys.every(key => imagesState[key] !== null);
         generateBtn.disabled = !allLoaded;
+    }
+
+    // Reset Logic
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            keys.forEach(key => {
+                removeImage(key);
+            });
+            previewSection.style.display = 'none';
+            previewContainer.innerHTML = '';
+            generatedDownloads = [];
+            showToast('画像をリセットしました', true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
 
     // Generation Logic
