@@ -114,9 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                // Size validation warning (No strict block, just warning)
-                if (img.width !== EXPECTED_WIDTH || img.height !== EXPECTED_HEIGHT) {
-                    showToast(`警告: 推奨サイズは ${EXPECTED_WIDTH}x${EXPECTED_HEIGHT} です (${key})`);
+                // Aspect Ratio validation warning (No strict block, just warning)
+                const EXPECTED_RATIO = 16 / 9;
+                const actualRatio = img.width / img.height;
+                const tolerance = 0.05;
+                
+                if (Math.abs(actualRatio - EXPECTED_RATIO) > tolerance) {
+                    showToast(`警告: 推奨の画像比率は 16:9 です (${key})`);
                 }
                 
                 imagesState[key] = img;
