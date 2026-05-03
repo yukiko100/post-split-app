@@ -1,8 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Labels corresponding to requirements
-    const labels = ['A (分割用元画像)', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+    const labels = [
+        'A（分割用元画像）',
+        'B｜Post 01 Top',
+        'C｜Post 01 Bottom',
+        'D｜Post 02 Top',
+        'E｜Post 02 Bottom',
+        'F｜Post 03 Top',
+        'G｜Post 03 Bottom',
+        'H｜Post 04 Top',
+        'I｜Post 04 Bottom'
+    ];
     const keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-    
+
     // Output image names (base names)
     const outputNames = ['post_1.jpg', 'post_2.jpg', 'post_3.jpg', 'post_4.jpg'];
 
@@ -47,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropzone = document.createElement('div');
         dropzone.className = 'dropzone';
         dropzone.id = `dropzone-${key}`;
-        
+
         const labelClass = key === 'A' ? 'dropzone-label is-A' : 'dropzone-label';
-        
+
         dropzone.innerHTML = `
             <div class="${labelClass}">${labels[index]}</div>
             <div class="dropzone-content">
@@ -118,19 +128,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const EXPECTED_RATIO = 16 / 9;
                 const actualRatio = img.width / img.height;
                 const tolerance = 0.05;
-                
+
                 if (Math.abs(actualRatio - EXPECTED_RATIO) > tolerance) {
                     showToast(`警告: 推奨の画像比率は 16:9 です (${key})`);
                 }
-                
+
                 imagesState[key] = img;
-                
+
                 const dropzone = document.getElementById(`dropzone-${key}`);
                 const imgPreview = document.getElementById(`img-preview-${key}`);
-                
+
                 imgPreview.src = e.target.result;
                 dropzone.classList.add('has-image');
-                
+
                 checkAllImagesLoaded();
             };
             img.src = e.target.result;
@@ -143,11 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropzone = document.getElementById(`dropzone-${key}`);
         const imgPreview = document.getElementById(`img-preview-${key}`);
         const fileInput = document.getElementById(`file-input-${key}`);
-        
+
         imgPreview.src = '';
         fileInput.value = '';
         dropzone.classList.remove('has-image');
-        
+
         checkAllImagesLoaded();
     }
 
@@ -173,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Generation Logic
     generateBtn.addEventListener('click', async () => {
         if (generateBtn.disabled) return;
-        
+
         generateBtn.innerHTML = '<span class="btn-text">Generating...</span>';
         generateBtn.disabled = true;
 
@@ -209,9 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function drawMiddleBand(ctx, scaledA, partIndex) {
             const positions = [
-                { sx: 0,    sy: 0 },
+                { sx: 0, sy: 0 },
                 { sx: 1600, sy: 0 },
-                { sx: 0,    sy: 900 },
+                { sx: 0, sy: 900 },
                 { sx: 1600, sy: 900 }
             ];
 
@@ -276,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return compositions.map(comp => {
             const EXPORT_FORMAT = "image/jpeg";
             const EXPORT_QUALITY = qualitySlider ? parseFloat(qualitySlider.value) : 0.8;
-            
+
             const canvas = generateComposite(comp.top, scaledA, comp.partIndex, comp.bottom);
             return {
                 name: comp.name + '.jpg',
@@ -294,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.forEach(out => {
             const card = document.createElement('div');
             card.className = 'preview-card';
-            
+
             card.innerHTML = `
                 <div class="preview-img-container">
                     <img src="${out.url}" alt="${out.name}">
@@ -304,14 +314,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     Download
                 </a>
             `;
-            
+
             previewContainer.appendChild(card);
         });
     }
 
     downloadAllBtn.addEventListener('click', () => {
         if (!generatedDownloads.length) return;
-        
+
         // To download all without external Zip library, we programmatically click download links with delay
         generatedDownloads.forEach((out, index) => {
             setTimeout(() => {
